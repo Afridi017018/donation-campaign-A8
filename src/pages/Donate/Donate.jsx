@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { json, useParams } from 'react-router-dom';
+import {Link, Navigate, useNavigate, useParams } from 'react-router-dom';
+import Swal from 'sweetalert2'
 
 const Donate = () => {
     const [cardDetails, setCardDetails] = useState({});
     const { id } = useParams();
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetch("/fakeData.json")
@@ -19,6 +22,17 @@ const Donate = () => {
             newId.push({ id: id })
             localStorage.setItem("ids", JSON.stringify(newId));
         }
+
+        Swal.fire(
+            'Donation successful!',
+            '',
+            'success'
+          ).then((result) => {
+
+            if (result.isConfirmed) {
+              navigate("/donation")
+            } 
+          })
 
     }
 
